@@ -23,7 +23,7 @@ public class Player : MonoBehaviour
 
     public bool isGrounded;
     float delay;
-    float pdelay = 5;
+    float pdelay = 1;
 
     public Animator anim;
 
@@ -59,9 +59,16 @@ public class Player : MonoBehaviour
             {
             xvel = -100;
             }
-            if (pdelay <= 0)
+
+            if (pool == true)
             {
-                xvel = UnityEngine.Random.Range(-1f, -100f);
+                pdelay -= Time.deltaTime;
+
+                if (pdelay <= 0)
+                {
+                    xvel = UnityEngine.Random.Range(-1f, -100f);
+                    pdelay = 1;
+                }
             }
         }
 
@@ -74,9 +81,15 @@ public class Player : MonoBehaviour
             {
                 xvel = 1;
             }
-            if (pdelay <= 0)
+            if (pool == true)
             {
-                xvel = UnityEngine.Random.Range(1f, 100f);
+                pdelay -= Time.deltaTime;
+
+                if (pdelay <= 0)
+                {
+                    xvel = UnityEngine.Random.Range(1f, 100f);
+                    pdelay = 1;
+                }
             }
         }
 
@@ -93,11 +106,6 @@ public class Player : MonoBehaviour
         if (Input.GetKeyDown("p"))
         {
             pool = true;
-        }
-
-        if (pool == true)
-        {
-            pdelay -= Time.deltaTime;
         }
 
         GroundCheck();
@@ -123,6 +131,7 @@ public class Player : MonoBehaviour
         if (Input.GetKeyDown("p"))
         {
             pool = true;
+            print("P MODE ACTIVATED");
         }
 
 
