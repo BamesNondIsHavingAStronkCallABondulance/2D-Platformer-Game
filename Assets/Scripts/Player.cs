@@ -6,18 +6,24 @@ using UnityEngine.UIElements;
 using static UnityEditor.ShaderGraph.Internal.KeywordDependentCollection;
 
 
-public class Movement : MonoBehaviour
+public class Player : MonoBehaviour
 {
+    HelperScript helper;
 
     Rigidbody2D rb;
 
     float xvel, yvel;
-    float health;
+    public float health;
+
+    bool turbo;
+
+    bool pool;
 
     public bool isFacingRight;
 
     public bool isGrounded;
     float delay;
+    float pdelay = 5;
 
     public Animator anim;
 
@@ -35,6 +41,7 @@ public class Movement : MonoBehaviour
         barrierLayerMask = LayerMask.GetMask("Death Barrier");
         enemyLayerMask = LayerMask.GetMask("Enemy");
         delay = 0;
+        helper = gameObject.AddComponent<HelperScript>();
     }
     void Update()
     {
@@ -45,19 +52,52 @@ public class Movement : MonoBehaviour
 
         if (Input.GetKey("a"))
         {
-            GetComponent<SpriteRenderer>().flipX = true;
+            helper.FlipObject(true);
             xvel = -5;
+
+            if(turbo == true)
+            {
+            xvel = -100;
+            }
+            if (pdelay <= 0)
+            {
+                xvel = UnityEngine.Random.Range(-1f, -100f);
+            }
         }
 
         if (Input.GetKey("d"))
         {
-            GetComponent<SpriteRenderer>().flipX = false;
+            helper.FlipObject(false);
             xvel = 5;
+
+            if(turbo == true)
+            {
+                xvel = 1;
+            }
+            if (pdelay <= 0)
+            {
+                xvel = UnityEngine.Random.Range(1f, 100f);
+            }
         }
 
         if (Input.GetKeyDown(KeyCode.Space) && isGrounded == true)
         {
             yvel = 15;
+        }
+
+        if (Input.GetKeyDown("h"))
+        {
+            helper.Hello(true);                                 
+        }
+
+        if (Input.GetKeyDown("p"))
+        {
+            pool = true;
+        }
+
+        if (pool == true)
+        {
+            pdelay -= Time.deltaTime;
         }
 
         GroundCheck();
@@ -74,6 +114,17 @@ public class Movement : MonoBehaviour
         {
             transform.position = new Vector2(-8, -5);
         }
+
+        if (Input.GetKeyDown("t"))
+        {
+            turbo = true;
+        }
+
+        if (Input.GetKeyDown("p"))
+        {
+            pool = true;
+        }
+
 
 
 
@@ -164,7 +215,7 @@ public class Movement : MonoBehaviour
         if (hit.collider != null || hitDown.collider != null)
         {
             health -= 1;
-            print(health);
+            print("Player has " + health + " health.");
             delay = 2;
             hitColor = Color.green;
         }
@@ -195,7 +246,7 @@ public class Movement : MonoBehaviour
         if (hitLeft.collider != null || hitRight.collider != null)
         {
             health -= 1;
-            print(health);
+            print("Player has " + health + " health.");
             delay = 2;
             hitColor = Color.green;
         }

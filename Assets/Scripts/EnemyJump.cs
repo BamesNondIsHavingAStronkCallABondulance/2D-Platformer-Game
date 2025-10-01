@@ -2,7 +2,10 @@ using UnityEngine;
 
 public class EnemyJump : MonoBehaviour
 {
+
+    public Player playerScript;
     public LayerMask groundLayerMask;
+    public Animator anim;
 
     Rigidbody2D rb;
 
@@ -19,6 +22,8 @@ public class EnemyJump : MonoBehaviour
     void Update()
     {
         JumpCheck();
+
+        //print("Player has " + playerScript.health + " health.");
     }
 
     void JumpCheck()

@@ -2,16 +2,26 @@ using UnityEngine;
 
 public class EnemyWalk : MonoBehaviour
 {
+    HelperScript helper;
+
     public LayerMask groundLayerMask;
 
     Rigidbody2D rb;
 
     float xvel, yvel;
+
+    public Animator anim;
+
+    bool isGrounded;
+
+    private bool isFacingRight = true;
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
-        xvel = -1;
+        xvel = 1;
 
+        anim = GetComponent<Animator>();
+        helper = gameObject.AddComponent<HelperScript>();
     }
 
     // Update is called once per frame
@@ -24,6 +34,7 @@ public class EnemyWalk : MonoBehaviour
             if(ExtendedRayCollisionCheck(-0.5f, 0) == false)
             {
                 xvel = -xvel;
+                helper.FlipObject(false);
             }
         }
         else if (xvel > 0)
@@ -31,17 +42,16 @@ public class EnemyWalk : MonoBehaviour
             if (ExtendedRayCollisionCheck(0.5f, 0) == false)
             {
                 xvel = -xvel;
+                helper.FlipObject(true);
             }
         }
 
         rb.linearVelocity = new Vector2(xvel, yvel);
-
-
     }
 
     public bool ExtendedRayCollisionCheck(float xoffs, float yoffs)
     {
-        float rayLength = 0.8f; // length of raycast
+        float rayLength = 0.1f; // length of raycast
         bool hitSomething = false;
 
         // convert x and y offset into a Vector3 
@@ -68,5 +78,4 @@ public class EnemyWalk : MonoBehaviour
         return hitSomething;
 
     }
-
 }
