@@ -57,7 +57,7 @@ public class Player : MonoBehaviour
 
             if(turbo == true)
             {
-            xvel = -100;
+            xvel = -15;
             }
 
             if (pool == true)
@@ -79,7 +79,7 @@ public class Player : MonoBehaviour
 
             if(turbo == true)
             {
-                xvel = 1;
+                xvel = 15;
             }
             if (pool == true)
             {
@@ -181,7 +181,7 @@ public class Player : MonoBehaviour
 
         Vector2 position = transform.position;
         Vector2 direction = Vector2.down;
-        float distance = 0.2f;
+        float distance = 0.7f;
 
         RaycastHit2D hit = Physics2D.Raycast(position, direction, distance, groundLayerMask);
         if (hit.collider != null)
@@ -200,7 +200,7 @@ public class Player : MonoBehaviour
         {
             health -= 1;
             transform.position = new Vector2(-8, -5);
-            print(health);
+            print("Player has " + health + " health.");
         }
     }
     void EnemyCheckVert(float yoffs)

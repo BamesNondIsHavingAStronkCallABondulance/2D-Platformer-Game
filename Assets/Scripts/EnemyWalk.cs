@@ -11,10 +11,6 @@ public class EnemyWalk : MonoBehaviour
     float xvel, yvel;
 
     public Animator anim;
-
-    bool isGrounded;
-
-    private bool isFacingRight = true;
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();

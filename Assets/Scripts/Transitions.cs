@@ -3,9 +3,12 @@ using UnityEngine.SceneManagement;
 
 public class Transitions : MonoBehaviour
 {
-    private void OnTriggerEnter2D(Collider2D other)
+    private void OnTriggerEnter2D(Collider2D collision)
     {
-        SceneManager.LoadScene("Scene2", LoadSceneMode.Additive);
+        if(collision.gameObject.tag == "Player")
+        {
+            SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
+        }
     }
 
 }
